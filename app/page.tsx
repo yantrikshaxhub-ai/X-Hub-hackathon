@@ -60,10 +60,65 @@ export default function HomePage() {
             color: '#555A64',
             lineHeight: 1.7,
             maxWidth: '680px',
-            margin: '0 auto 36px auto',
+            margin: '0 auto 28px auto',
           }}>
             Connecting students across all 8 Vel Tech engineering departments with <strong style={{ color: '#191A1D' }}>101 authentic industry problem statements</strong> from pioneering technology partners. Discover challenges, ping peers, and form winning squads.
           </p>
+
+          {/* Active Deadlines Quick Badge */}
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '12px',
+            background: 'rgba(255, 255, 255, 0.95)',
+            border: '1px solid #E5E7EB',
+            borderRadius: '9999px',
+            padding: '8px 20px',
+            marginBottom: '32px',
+            boxShadow: '0 2px 14px rgba(0,0,0,0.04)',
+            backdropFilter: 'blur(10px)',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+          }}>
+            <span style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              fontSize: '11px',
+              fontWeight: 800,
+              letterSpacing: '0.04em',
+              textTransform: 'uppercase',
+              color: '#065F46',
+              background: '#D1FAE5',
+              padding: '3px 10px',
+              borderRadius: '9999px',
+            }}>
+              <span className="live-pulse-dot" style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10B981' }} />
+              Phase 1 Active
+            </span>
+            <span style={{ fontSize: '13px', color: '#1F2937', fontWeight: 600 }}>
+              PS Selection Deadline: <strong style={{ color: '#0F172A', fontWeight: 800 }}>23 Oct 2026</strong>
+            </span>
+            <span style={{ color: '#D1D5DB' }}>&bull;</span>
+            <span style={{ fontSize: '13px', color: '#1F2937', fontWeight: 600 }}>
+              Abstract Submission: <strong style={{ color: '#0F172A', fontWeight: 800 }}>05 Nov 2026</strong>
+            </span>
+            <a
+              href="#timeline"
+              style={{
+                fontSize: '12px',
+                fontWeight: 700,
+                color: '#2563EB',
+                textDecoration: 'none',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '2px',
+                marginLeft: '4px',
+              }}
+            >
+              Timeline &darr;
+            </a>
+          </div>
 
           {/* CTA Buttons */}
           <div style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '36px' }}>
@@ -161,6 +216,356 @@ export default function HomePage() {
                 {dept}
               </span>
             ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* Important Deadlines & Hackathon Roadmap Section */}
+      <section id="timeline" style={{ padding: '68px 24px 60px 24px', borderBottom: '1px solid #EFF1F4', background: '#FFFFFF' }}>
+        <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
+          
+          {/* Section Header */}
+          <div style={{ textAlign: 'center', marginBottom: '44px' }}>
+            <span style={{
+              display: 'inline-block',
+              background: '#EDF7F1',
+              border: '1px solid #C9EBD6',
+              color: '#24633E',
+              padding: '4px 14px',
+              borderRadius: '9999px',
+              fontSize: '11px',
+              fontWeight: 800,
+              letterSpacing: '0.05em',
+              textTransform: 'uppercase',
+              marginBottom: '12px',
+            }}>
+              🗓️ Official Hackathon Timeline
+            </span>
+            <h2 style={{ fontSize: 'clamp(1.9rem, 3.8vw, 2.4rem)', fontWeight: 800, color: '#191A1D', margin: 0, letterSpacing: '-0.02em' }}>
+              Key Deadlines &amp; Submission Milestones
+            </h2>
+            <p style={{ color: '#737780', fontSize: '15px', marginTop: '10px', maxWidth: '620px', margin: '10px auto 0 auto', lineHeight: 1.6 }}>
+              Assemble your interdisciplinary squad, reserve your industry problem statement, and submit your proposal on time.
+            </p>
+          </div>
+
+          {/* 3 Step Milestone Grid */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(310px, 1fr))',
+            gap: '22px',
+            marginBottom: '36px',
+          }}>
+            
+            {/* Step 1: 23rd October 2026 */}
+            <div
+              className="milestone-card"
+              style={{
+                background: '#FFFFFF',
+                borderRadius: '20px',
+                border: '1.5px solid #10B981',
+                padding: '28px 24px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                boxShadow: '0 8px 24px rgba(16, 185, 129, 0.08)',
+                position: 'relative',
+              }}
+            >
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
+                  <span style={{
+                    fontSize: '11px',
+                    fontWeight: 800,
+                    letterSpacing: '0.04em',
+                    textTransform: 'uppercase',
+                    color: '#065F46',
+                    background: '#D1FAE5',
+                    padding: '4px 10px',
+                    borderRadius: '8px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '5px',
+                  }}>
+                    <span className="live-pulse-dot" style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10B981' }} />
+                    Active Stage &bull; Step 01
+                  </span>
+                  <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#059669', background: '#ECFDF5', padding: '3px 9px', borderRadius: '6px' }}>
+                    Action Required
+                  </span>
+                </div>
+
+                {/* Date Display Badge */}
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '14px',
+                  background: 'linear-gradient(135deg, #ECFDF5 0%, #F0FDF4 100%)',
+                  border: '1px solid #A7F3D0',
+                  borderRadius: '14px',
+                  padding: '12px 16px',
+                  marginBottom: '18px',
+                }}>
+                  <div style={{
+                    background: '#10B981',
+                    color: '#FFFFFF',
+                    borderRadius: '10px',
+                    padding: '6px 12px',
+                    textAlign: 'center',
+                    minWidth: '58px',
+                  }}>
+                    <div style={{ fontSize: '9.5px', fontWeight: 800, letterSpacing: '0.05em' }}>OCT</div>
+                    <div style={{ fontSize: '22px', fontWeight: 900, lineHeight: 1 }}>23</div>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '11px', fontWeight: 700, color: '#047857', textTransform: 'uppercase', letterSpacing: '0.03em' }}>
+                      Cutoff Date
+                    </div>
+                    <div style={{ fontSize: '14.5px', fontWeight: 800, color: '#064E3B' }}>
+                      23rd October 2026
+                    </div>
+                  </div>
+                </div>
+
+                <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#191A1D', marginBottom: '8px', letterSpacing: '-0.01em' }}>
+                  Confirm Participation &amp; PS Selection
+                </h3>
+                <p style={{ fontSize: '13.5px', color: '#555A64', lineHeight: 1.6, margin: 0 }}>
+                  Lock your selected challenge from <strong style={{ color: '#191A1D' }}>101 authentic industry problem statements</strong>. Form your multidisciplinary squad across engineering branches before statement capacity closes.
+                </p>
+              </div>
+
+              <div style={{ marginTop: '22px', paddingTop: '16px', borderTop: '1px solid #F3F4F6' }}>
+                <Link
+                  href="/problems"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    fontSize: '13px',
+                    fontWeight: 700,
+                    color: '#059669',
+                    textDecoration: 'none',
+                  }}
+                >
+                  Browse Statements &amp; Lock PS &rarr;
+                </Link>
+              </div>
+            </div>
+
+            {/* Step 2: 05th November 2026 */}
+            <div
+              className="milestone-card"
+              style={{
+                background: '#FFFFFF',
+                borderRadius: '20px',
+                border: '1.5px solid #6366F1',
+                padding: '28px 24px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                boxShadow: '0 8px 24px rgba(99, 102, 241, 0.08)',
+                position: 'relative',
+              }}
+            >
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
+                  <span style={{
+                    fontSize: '11px',
+                    fontWeight: 800,
+                    letterSpacing: '0.04em',
+                    textTransform: 'uppercase',
+                    color: '#4338CA',
+                    background: '#EEF2FF',
+                    padding: '4px 10px',
+                    borderRadius: '8px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '5px',
+                  }}>
+                    📝 Core Submission &bull; Step 02
+                  </span>
+                  <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#4F46E5', background: '#EEF2FF', padding: '3px 9px', borderRadius: '6px' }}>
+                    Major Milestone
+                  </span>
+                </div>
+
+                {/* Date Display Badge */}
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '14px',
+                  background: 'linear-gradient(135deg, #EEF2FF 0%, #F5F3FF 100%)',
+                  border: '1px solid #C7D2FE',
+                  borderRadius: '14px',
+                  padding: '12px 16px',
+                  marginBottom: '18px',
+                }}>
+                  <div style={{
+                    background: '#6366F1',
+                    color: '#FFFFFF',
+                    borderRadius: '10px',
+                    padding: '6px 12px',
+                    textAlign: 'center',
+                    minWidth: '58px',
+                  }}>
+                    <div style={{ fontSize: '9.5px', fontWeight: 800, letterSpacing: '0.05em' }}>NOV</div>
+                    <div style={{ fontSize: '22px', fontWeight: 900, lineHeight: 1 }}>05</div>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '11px', fontWeight: 700, color: '#4338CA', textTransform: 'uppercase', letterSpacing: '0.03em' }}>
+                      Submission Deadline
+                    </div>
+                    <div style={{ fontSize: '14.5px', fontWeight: 800, color: '#312E81' }}>
+                      05th November 2026
+                    </div>
+                  </div>
+                </div>
+
+                <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#191A1D', marginBottom: '8px', letterSpacing: '-0.01em' }}>
+                  Idea / Abstract Submission
+                </h3>
+                <p style={{ fontSize: '13.5px', color: '#555A64', lineHeight: 1.6, margin: 0 }}>
+                  Submit your team's concept proposal, technical architecture, and implementation blueprint. Dedicated faculty and industry mentors will be assigned directly to your squad based on submitted abstracts.
+                </p>
+              </div>
+
+              <div style={{ marginTop: '22px', paddingTop: '16px', borderTop: '1px solid #F3F4F6' }}>
+                <span style={{ fontSize: '12.5px', color: '#6B7280', fontWeight: 600 }}>
+                  💡 Mentors assigned following abstract acceptance
+                </span>
+              </div>
+            </div>
+
+            {/* Step 3: 30th November 2026 */}
+            <div
+              className="milestone-card"
+              style={{
+                background: '#FFFFFF',
+                borderRadius: '20px',
+                border: '1.5px solid #F59E0B',
+                padding: '28px 24px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                boxShadow: '0 8px 24px rgba(245, 158, 11, 0.08)',
+                position: 'relative',
+              }}
+            >
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
+                  <span style={{
+                    fontSize: '11px',
+                    fontWeight: 800,
+                    letterSpacing: '0.04em',
+                    textTransform: 'uppercase',
+                    color: '#B45309',
+                    background: '#FEF3C7',
+                    padding: '4px 10px',
+                    borderRadius: '8px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '5px',
+                  }}>
+                    🏆 Grand Finale &bull; Step 03
+                  </span>
+                  <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#D97706', background: '#FEF3C7', padding: '3px 9px', borderRadius: '6px' }}>
+                    Campus Demo Day
+                  </span>
+                </div>
+
+                {/* Date Display Badge */}
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '14px',
+                  background: 'linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%)',
+                  border: '1px solid #FDE68A',
+                  borderRadius: '14px',
+                  padding: '12px 16px',
+                  marginBottom: '18px',
+                }}>
+                  <div style={{
+                    background: '#F59E0B',
+                    color: '#FFFFFF',
+                    borderRadius: '10px',
+                    padding: '6px 12px',
+                    textAlign: 'center',
+                    minWidth: '58px',
+                  }}>
+                    <div style={{ fontSize: '9.5px', fontWeight: 800, letterSpacing: '0.05em' }}>NOV</div>
+                    <div style={{ fontSize: '22px', fontWeight: 900, lineHeight: 1 }}>30</div>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '11px', fontWeight: 700, color: '#B45309', textTransform: 'uppercase', letterSpacing: '0.03em' }}>
+                      Hackathon Day
+                    </div>
+                    <div style={{ fontSize: '14.5px', fontWeight: 800, color: '#78350F' }}>
+                      30th November 2026
+                    </div>
+                  </div>
+                </div>
+
+                <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#191A1D', marginBottom: '8px', letterSpacing: '-0.01em' }}>
+                  Internal Hackathon &amp; Jury Pitch
+                </h3>
+                <p style={{ fontSize: '13.5px', color: '#555A64', lineHeight: 1.6, margin: 0 }}>
+                  Live working prototype evaluation at <strong style={{ color: '#191A1D' }}>Vel Tech Campus, Chennai</strong>. Compete for company awards, patent pathways, and startup incubation support up to ₹8 Lakhs!
+                </p>
+              </div>
+
+              <div style={{ marginTop: '22px', paddingTop: '16px', borderTop: '1px solid #F3F4F6' }}>
+                <span style={{ fontSize: '12.5px', color: '#B45309', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                  📍 Venue: Vel Tech Campus, Chennai
+                </span>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Student Attraction Perks Banner - Clean & Lightweight */}
+          <div style={{
+            background: '#F9FAFB',
+            border: '1px solid #E5E7EB',
+            borderRadius: '16px',
+            padding: '16px 20px',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+            gap: '12px',
+            alignItems: 'center',
+          }}>
+            <div className="perk-pill" style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '8px 12px', borderRadius: '10px' }}>
+              <span style={{ fontSize: '20px' }}>🎓</span>
+              <div>
+                <div style={{ fontSize: '13px', fontWeight: 700, color: '#191A1D' }}>Zero Registration Fee</div>
+                <div style={{ fontSize: '11.5px', color: '#737780' }}>100% Internal for Vel Tech students</div>
+              </div>
+            </div>
+
+            <div className="perk-pill" style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '8px 12px', borderRadius: '10px' }}>
+              <span style={{ fontSize: '20px' }}>🚀</span>
+              <div>
+                <div style={{ fontSize: '13px', fontWeight: 700, color: '#191A1D' }}>Up to ₹8 Lakhs Support</div>
+                <div style={{ fontSize: '11.5px', color: '#737780' }}>Incubation via Vel Tech TBI (DST)</div>
+              </div>
+            </div>
+
+            <div className="perk-pill" style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '8px 12px', borderRadius: '10px' }}>
+              <span style={{ fontSize: '20px' }}>🤝</span>
+              <div>
+                <div style={{ fontSize: '13px', fontWeight: 700, color: '#191A1D' }}>2500+ Industry Network</div>
+                <div style={{ fontSize: '11.5px', color: '#737780' }}>Direct partner &amp; recruiter exposure</div>
+              </div>
+            </div>
+
+            <div className="perk-pill" style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '8px 12px', borderRadius: '10px' }}>
+              <span style={{ fontSize: '20px' }}>📜</span>
+              <div>
+                <div style={{ fontSize: '13px', fontWeight: 700, color: '#191A1D' }}>Patents &amp; Startups</div>
+                <div style={{ fontSize: '11.5px', color: '#737780' }}>Dedicated industry expert mentorship</div>
+              </div>
+            </div>
           </div>
 
         </div>

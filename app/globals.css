@@ -163,6 +163,39 @@ html, body {
   padding: 0 24px;
 }
 
+/* Landing Milestones & Deadlines Section */
+.milestone-card {
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.22s ease;
+}
+.milestone-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(25, 26, 29, 0.08) !important;
+}
+
+.perk-pill {
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+.perk-pill:hover {
+  transform: translateY(-2px);
+  background: #FFFFFF !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04) !important;
+}
+
+@keyframes live-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(1.18);
+  }
+}
+
+.live-pulse-dot {
+  animation: live-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
 /* ========================================================
    OUTER FRAME & CANVAS LAYOUT (DASHBOARD & INNER PAGES)
    ======================================================== */
