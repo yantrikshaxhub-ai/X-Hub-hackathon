@@ -111,6 +111,22 @@ export async function POST(req: NextRequest) {
 
       const studentId = Number(result.lastInsertRowid);
 
+      // Asynchronously send welcome email (non-blocking)
+      (async () => {
+        try {
+          const dept = (await db.prepare('SELECT name FROM departments WHERE id = ?').get(department_id)) as { name: string } | null;
+          const { sendWelcomeEmail } = await import('@/lib/mail');
+          await sendWelcomeEmail({
+            to: cleanEmail,
+            name: actualName,
+            vtNumber: cleanVT,
+            department: dept?.name || 'Vel Tech Engineering',
+          });
+        } catch (mailErr) {
+          console.error('[Mail Automation] Failed to dispatch welcome email:', mailErr);
+        }
+      })();
+
       const token = await signToken({
         type: 'student',
         id: studentId,

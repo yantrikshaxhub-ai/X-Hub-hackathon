@@ -138,6 +138,32 @@ export async function POST(req: NextRequest) {
       JSON.stringify({ invitation_id: result.lastInsertRowid, problem_statement_id })
     );
 
+    // Asynchronously send team invitation email (non-blocking)
+    (async () => {
+      try {
+        const [recipient, sender, psRow] = await Promise.all([
+          db.prepare('SELECT full_name, email FROM students WHERE id = ?').get(recipient_id) as Promise<{ full_name: string; email: string } | null>,
+          db.prepare('SELECT s.full_name, d.name as dept_name FROM students s LEFT JOIN departments d ON s.department_id = d.id WHERE s.id = ?').get(student.id) as Promise<{ full_name: string; dept_name: string } | null>,
+          db.prepare('SELECT ps_id, title FROM problem_statements WHERE id = ?').get(problem_statement_id) as Promise<{ ps_id: string; title: string } | null>,
+        ]);
+
+        if (recipient && sender && psRow) {
+          const { sendTeamInvitationEmail } = await import('@/lib/mail');
+          await sendTeamInvitationEmail({
+            to: recipient.email,
+            recipientName: recipient.full_name,
+            senderName: sender.full_name,
+            senderDept: sender.dept_name || 'Engineering',
+            psCode: psRow.ps_id,
+            psTitle: psRow.title,
+            message: message || undefined,
+          });
+        }
+      } catch (mailErr) {
+        console.error('[Mail Automation] Failed to dispatch team invitation email:', mailErr);
+      }
+    })();
+
     return Response.json({ message: 'Invitation sent successfully', id: result.lastInsertRowid }, { status: 201 });
   } catch (err) {
     if ((err as Error).message === 'UNAUTHORIZED') {

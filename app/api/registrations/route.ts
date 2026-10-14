@@ -110,6 +110,33 @@ export async function POST(req: NextRequest) {
       VALUES (?, ?, 0)
     `).run(student.id, problem_statement_id);
 
+    // Asynchronously send PS registration confirmation email (non-blocking)
+    (async () => {
+      try {
+        const fullPS = (await db.prepare(`
+          SELECT ps.ps_id, ps.title, c.name as company_name 
+          FROM problem_statements ps
+          LEFT JOIN companies c ON ps.company_id = c.id
+          WHERE ps.id = ?
+        `).get(problem_statement_id)) as { ps_id: string; title: string; company_name: string } | null;
+
+        const stu = (await db.prepare('SELECT full_name, email FROM students WHERE id = ?').get(student.id)) as { full_name: string; email: string } | null;
+
+        if (stu && fullPS) {
+          const { sendProblemRegistrationEmail } = await import('@/lib/mail');
+          await sendProblemRegistrationEmail({
+            to: stu.email,
+            name: stu.full_name,
+            psCode: fullPS.ps_id,
+            psTitle: fullPS.title,
+            companyName: fullPS.company_name || 'Industry Partner',
+          });
+        }
+      } catch (mailErr) {
+        console.error('[Mail Automation] Failed to dispatch PS registration email:', mailErr);
+      }
+    })();
+
     return Response.json({ message: 'Registered successfully', id: result.lastInsertRowid }, { status: 201 });
   } catch (err) {
     if ((err as Error).message === 'UNAUTHORIZED') {

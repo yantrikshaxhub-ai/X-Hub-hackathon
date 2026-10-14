@@ -42,9 +42,32 @@ export async function PATCH(
     if (action === 'reject') {
       await db.prepare(`UPDATE invitations SET status = 'rejected', updated_at = NOW() WHERE id = ?`).run(id);
       
-      // Notify sender
+      // Notify sender in-app
       await db.prepare(`INSERT INTO notifications (student_id, type, title, message) VALUES (?, 'invitation_rejected', 'Invitation Rejected', ?)`)
         .run(invitation.sender_id, `${student.name} declined your team invitation`);
+
+      // Asynchronously send invitation response email (non-blocking)
+      (async () => {
+        try {
+          const [sender, psRow] = await Promise.all([
+            db.prepare('SELECT full_name, email FROM students WHERE id = ?').get(invitation.sender_id) as Promise<{ full_name: string; email: string } | null>,
+            db.prepare('SELECT ps_id FROM problem_statements WHERE id = ?').get(invitation.problem_statement_id) as Promise<{ ps_id: string } | null>,
+          ]);
+
+          if (sender && psRow) {
+            const { sendInvitationResponseEmail } = await import('@/lib/mail');
+            await sendInvitationResponseEmail({
+              to: sender.email,
+              leaderName: sender.full_name,
+              peerName: student.name,
+              accepted: false,
+              psCode: psRow.ps_id,
+            });
+          }
+        } catch (mailErr) {
+          console.error('[Mail Automation] Failed to dispatch invite reject email:', mailErr);
+        }
+      })();
 
       return Response.json({ message: 'Invitation rejected' });
     }
@@ -119,9 +142,34 @@ export async function PATCH(
     await db.prepare(`UPDATE invitations SET status = 'accepted', team_id = ?, updated_at = NOW() WHERE id = ?`)
       .run(teamId, id);
 
-    // Notify sender
+    // Notify sender in-app
     await db.prepare(`INSERT INTO notifications (student_id, type, title, message, data) VALUES (?, 'invitation_accepted', 'Invitation Accepted', ?, ?)`)
       .run(invitation.sender_id, `${student.name} accepted your team invitation!`, JSON.stringify({ team_id: teamId }));
+
+    // Asynchronously send invitation accepted email (non-blocking)
+    (async () => {
+      try {
+        const [sender, peerDept, psRow] = await Promise.all([
+          db.prepare('SELECT full_name, email FROM students WHERE id = ?').get(invitation.sender_id) as Promise<{ full_name: string; email: string } | null>,
+          db.prepare('SELECT d.name as dept_name FROM students s LEFT JOIN departments d ON s.department_id = d.id WHERE s.id = ?').get(student.id) as Promise<{ dept_name: string } | null>,
+          db.prepare('SELECT ps_id FROM problem_statements WHERE id = ?').get(invitation.problem_statement_id) as Promise<{ ps_id: string } | null>,
+        ]);
+
+        if (sender && psRow) {
+          const { sendInvitationResponseEmail } = await import('@/lib/mail');
+          await sendInvitationResponseEmail({
+            to: sender.email,
+            leaderName: sender.full_name,
+            peerName: student.name,
+            peerDept: peerDept?.dept_name,
+            accepted: true,
+            psCode: psRow.ps_id,
+          });
+        }
+      } catch (mailErr) {
+        console.error('[Mail Automation] Failed to dispatch invite accept email:', mailErr);
+      }
+    })();
 
     return Response.json({ message: 'Invitation accepted, you are now in the team', team_id: teamId });
   } catch (err) {

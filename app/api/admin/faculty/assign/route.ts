@@ -41,6 +41,67 @@ export async function POST(req: NextRequest) {
       VALUES (?, ?, ?, 'ASSIGN_FACULTY_MENTOR', 'mentor_assignment', ?, ?)
     `).run('admin', admin.id, admin.name, faculty_ids[0], JSON.stringify({ faculty_ids, problem_statement_ids }));
 
+    // Asynchronously dispatch mentor assignment emails (non-blocking)
+    (async () => {
+      try {
+        const { sendMentorAssignedToFacultyEmail, sendMentorAssignedToStudentEmail } = await import('@/lib/mail');
+
+        for (const fId of faculty_ids) {
+          const faculty = (await db.prepare(`
+            SELECT f.name, f.email, f.phone, COALESCE(d.name, 'Engineering') as dept_name
+            FROM faculty f
+            LEFT JOIN departments d ON f.department_id = d.id
+            WHERE f.id = ?
+          `).get(fId)) as { name: string; email: string; phone?: string; dept_name: string } | null;
+
+          if (!faculty) continue;
+
+          for (const psId of problem_statement_ids) {
+            const ps = (await db.prepare(`
+              SELECT ps.ps_id, ps.title, c.name as company_name
+              FROM problem_statements ps
+              LEFT JOIN companies c ON ps.company_id = c.id
+              WHERE ps.id = ?
+            `).get(psId)) as { ps_id: string; title: string; company_name: string } | null;
+
+            if (!ps) continue;
+
+            // 1. Email the faculty mentor
+            await sendMentorAssignedToFacultyEmail({
+              to: faculty.email,
+              mentorName: faculty.name,
+              psCode: ps.ps_id,
+              psTitle: ps.title,
+              companyName: ps.company_name || 'Industry Partner',
+            });
+
+            // 2. Email registered students for this problem statement
+            const registeredStudents = (await db.prepare(`
+              SELECT s.full_name, s.email
+              FROM registrations r
+              JOIN students s ON r.student_id = s.id
+              WHERE r.problem_statement_id = ? AND r.status = 'active'
+            `).all(psId)) as { full_name: string; email: string }[];
+
+            for (const st of registeredStudents) {
+              await sendMentorAssignedToStudentEmail({
+                to: st.email,
+                studentName: st.full_name,
+                mentorName: faculty.name,
+                mentorDept: faculty.dept_name,
+                mentorEmail: faculty.email,
+                mentorPhone: faculty.phone,
+                psCode: ps.ps_id,
+                psTitle: ps.title,
+              });
+            }
+          }
+        }
+      } catch (mailErr) {
+        console.error('[Mail Automation] Failed to dispatch mentor assignment emails:', mailErr);
+      }
+    })();
+
     return Response.json({
       success: true,
       assignedCount,
