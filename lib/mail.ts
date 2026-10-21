@@ -3,6 +3,7 @@ try {
   dns.setDefaultResultOrder('ipv4first');
 } catch {}
 import nodemailer from 'nodemailer';
+import type { Transporter } from 'nodemailer';
 
 // Email Configuration from Environment
 const SMTP_HOST = process.env.SMTP_HOST || 'smtp.gmail.com';
@@ -13,7 +14,7 @@ const SMTP_SECURE = process.env.SMTP_SECURE === 'true' || SMTP_PORT === 465;
 const SMTP_FROM = process.env.SMTP_FROM || '"X-Hub Hackathon 2026" <yantrikshaxhub@veltech.edu.in>';
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
 
-let transporter: nodemailer.Transporter | null = null;
+let transporter: Transporter | null = null;
 
 function getTransporter() {
   if (transporter) return transporter;
